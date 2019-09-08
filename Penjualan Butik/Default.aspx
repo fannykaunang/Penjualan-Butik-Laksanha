@@ -65,13 +65,13 @@
                             <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
                             <li class="nav-item">
-                                <a href="../../Default.aspx" class="nav-link">
+                                <a href="#" class="nav-link">
                                     <i class="nav-icon fas fa-tachometer-alt"></i>
                                     <p>Dashboard</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="../widgets.html" class="nav-link">
+                                <a href="#" class="nav-link">
                                     <i class="nav-icon fas fa-book-open"></i>
                                     <p>
                                         Master
@@ -80,25 +80,25 @@
                                 </a>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <a href="Barang.aspx" class="nav-link">
+                                        <a href="kasir/input/Barang.aspx" class="nav-link">
                                             <i class="fas fa-cube nav-icon"></i>
                                             <p>Barang</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="../../index2.html" class="nav-link">
+                                        <a href="kasir/input/Kategori_Barang.aspx" class="nav-link">
                                             <i class="fas fa-align-center nav-icon"></i>
                                             <p>Kategori Barang</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="../../index3.html" class="nav-link">
+                                        <a href="kasir/input/Supplier.aspx" class="nav-link">
                                             <i class="fas fa-shuttle-van nav-icon"></i>
                                             <p>Supplier</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="../../index3.html" class="nav-link">
+                                        <a href="kasir/input/Konsumen.aspx" class="nav-link">
                                             <i class="fas fa-chalkboard-teacher nav-icon"></i>
                                             <p>Konsumen</p>
                                         </a>
@@ -115,13 +115,13 @@
                                 </a>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <a href="../charts/chartjs.html" class="nav-link">
+                                        <a href="kasir/output/list-penerimaan.aspx" class="nav-link">
                                             <i class="fas fa-cloud-download-alt nav-icon"></i>
                                             <p>Transaksi Penerimaan</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="../charts/flot.html" class="nav-link">
+                                        <a href="kasir/output/list-penjualan.aspx" class="nav-link">
                                             <i class="fas fa-cloud-upload-alt nav-icon"></i>
                                             <p>Transaksi Penjualan</p>
                                         </a>
@@ -139,7 +139,7 @@
                                 </a>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <a href="../charts/chartjs.html" class="nav-link">
+                                        <a href="kasir/output/list-barang.aspx" class="nav-link">
                                             <i class="far fa-clipboard nav-icon"></i>
                                             <p>Daftar Barang</p>
                                         </a>
@@ -346,7 +346,6 @@
         <script src="dist/js/HighCharts/highcharts.js"></script>
         <script src="dist/js/HighCharts/exporting.js"></script>
         <script src="dist/js/HighCharts/export-data.js"></script>
-        <script src="dist/js/bootstrap.bundle.min.js"></script>
 
         <script type="text/javascript">
             window.onload = function () {
@@ -572,15 +571,7 @@
                                 stacking: 'normal'
                             },
                             bar: {
-                                allowPointSelect: true,
-                                cursor: 'pointer',
-                                point: {
-                                    events: {
-                                        click: function (e) {
-                                            location.href = '/frontend/SKPD/Progress_Pegawai.aspx?SKPD=' + this.category;
-                                        }
-                                    }
-                                }
+                                allowPointSelect: true
                             },
                         },
                         series: series

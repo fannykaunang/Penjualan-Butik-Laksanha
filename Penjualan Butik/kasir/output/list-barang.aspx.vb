@@ -11,7 +11,7 @@ Partial Class kasir_output_list_barang
       If Session("KODE_USER") IsNot Nothing Then
         Me.GET_USERS(Session("KODE_USER").ToString)
 
-        Me.GET_BIND_GRID_SPAREPART()
+        Me.GET_BIND_GRID()
 
       Else
         Response.Redirect("~/account/Login.aspx?next-url=~/kasir/output/list-barang.aspx", True)
@@ -61,27 +61,24 @@ Partial Class kasir_output_list_barang
     End Using
   End Function
 
-  Private Sub GET_BIND_GRID_SPAREPART()
+  Private Sub GET_BIND_GRID()
     Dim strQuery As String = "SELECT * FROM VW_PENERIMAAN"
 
     Using cmd As SqlCommand = New SqlCommand(strQuery)
       Me.GVBARANG.DataSource = Me.GetData(cmd)
       Me.GVBARANG.DataBind()
+      'Me.loadingImg.Style.Add("display", "none")
       'Me.UpdatePanel1.Update()
     End Using
   End Sub
 
   Protected Sub GVBARANG_PageIndexChanging(sender As Object, e As GridViewPageEventArgs)
     Me.GVBARANG.PageIndex = e.NewPageIndex
-    Me.GET_BIND_GRID_SPAREPART()
+    Me.GET_BIND_GRID()
     Me.GVBARANG.DataBind()
     Me.UpdatePanel1.UpdateMode = UpdatePanelUpdateMode.Always
     Me.UpdatePanel1.ChildrenAsTriggers = True
     'Me.UpdatePanel1.Update()
-  End Sub
-
-  Protected Sub BTREFRESH_Click(sender As Object, e As EventArgs)
-    Dim dt As DataTable = TryCast(ViewState("CurrentTable"), DataTable)
   End Sub
 
   Protected Sub LinkButton1_Click(sender As Object, e As EventArgs)
@@ -217,4 +214,8 @@ Partial Class kasir_output_list_barang
     End Using
   End Function
 
+  Protected Sub BTREFRESH_Click(sender As Object, e As EventArgs)
+    Threading.Thread.Sleep(1000)
+    GET_BIND_GRID()
+  End Sub
 End Class
