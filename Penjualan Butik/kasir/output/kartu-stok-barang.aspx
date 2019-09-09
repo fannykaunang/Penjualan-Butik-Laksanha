@@ -1,4 +1,4 @@
-<%@ Page Language="VB" AutoEventWireup="false" CodeFile="list-penjualan.aspx.vb" Inherits="kasir_output_list_penjualan" %>
+<%@ Page Language="VB" AutoEventWireup="false" CodeFile="kartu-stok-barang.aspx.vb" Inherits="kasir_output_kartu_stok_barang" %>
 
 <!DOCTYPE html>
 
@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Laporan Penjualan Barang | Penjualan Butik</title>
+    <title>Kartu Stok Barang | Penjualan Butik</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- Font Awesome -->
@@ -82,16 +82,7 @@
                         <a href="../../Default.aspx" class="nav-link">Home</a>
                     </li>
                     <li class="nav-item d-none d-sm-inline-block">
-                        <asp:DropDownList ID="TXTJENISLAPORAN" CssClass="form-control select2"
-                            Style="width: 100%;" runat="server">
-                            <asp:ListItem>--Pilih Jenis Laporan--</asp:ListItem>
-                            <asp:ListItem>Laporan Harian</asp:ListItem>
-                            <asp:ListItem>Laporan Bulanan</asp:ListItem>
-                            <asp:ListItem>Laporan Tahunan</asp:ListItem>
-                            <%--                            <asp:ListItem Value="supplier">Berdasarkan Nama Supplier</asp:ListItem>
-                            <asp:ListItem>Berdasarkan Nama Barang</asp:ListItem>
-                            <asp:ListItem>Berdasarkan Kategori Barang</asp:ListItem>--%>
-                        </asp:DropDownList>
+                       <asp:LinkButton ID="BTLIST" runat="server" CssClass="btn btn-primary"><i class="fas fa-search"></i>&nbsp;Tampilkan Opsi</asp:LinkButton>
                     </li>
                 </ul>
             </nav>
@@ -244,7 +235,7 @@
                     <div class="container-fluid">
                         <div class="row mb-2">
                             <div class="col-sm-6">
-                                <h1>Penjualan Barang</h1>
+                                <h1>Kartu Stok</h1>
                             </div>
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
@@ -259,7 +250,7 @@
                     <!-- Default box -->
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Laporan Penjualan Barang</h3>
+                            <h3 class="card-title">Kartu Stok Barang</h3>
                             <div class="card-tools">
                                 <asp:LinkButton ID="BTREFRESH" runat="server" ToolTip="Muat Ulang" CssClass="btn btn-tool" OnClick="BTREFRESH_Click"><i class="fas fa-sync"></i></asp:LinkButton>
                                 <button type="button" class="btn btn-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -290,52 +281,65 @@
                                                             </tr>
                                                         </table>
                                                         <hr style="border: 3px solid black; border-radius: 5px;" />
+                                                        <asp:Label ID="Label1" runat="server" Font-Size="Large" Text="Kartu Stok Barang"></asp:Label><br />
+                                                        <br />
                                                     </div>
-                                                    <asp:GridView ID="GVBARANG" runat="server" CssClass="table table-bordered table-striped table-hover js-basic-example dataTable"
-                                                        AutoGenerateColumns="false" EnableSortingAndPagingCallbacks="false" RowStyle-Wrap="false" role="grid" RowStyle-CssClass="myRow"
-                                                        DataKeyNames="KODE_PENJUALAN" OnRowDataBound="GVBARANG_RowDataBound" Font-Size="X-Small" GridLines="Both">
-                                                        <Columns>
-                                                            <asp:TemplateField HeaderText="NO.">
-                                                                <ItemTemplate>
-                                                                    <%# Container.DataItemIndex + 1 %>
-                                                                </ItemTemplate>
-                                                            </asp:TemplateField>
-                                                            <asp:TemplateField ItemStyle-CssClass="myRow" HeaderStyle-CssClass="myRow">
-                                                                <HeaderTemplate>
-                                                                    <asp:CheckBox ID="chkAllSelect" runat="server" />
-                                                                </HeaderTemplate>
-                                                                <ItemTemplate>
-                                                                    <asp:CheckBox ID="chkSelect" runat="server" />
-                                                                    <asp:HiddenField ID="hfKODE_BARANG" runat="server" Value='<%# Eval("KODE_BARANG")%>' />
-                                                                    <asp:HiddenField ID="HFIDBARANG" runat="server" Value='<%# Eval("KODE_BARANG")%>' />
-                                                                </ItemTemplate>
-                                                            </asp:TemplateField>
-                                                            <asp:TemplateField ShowHeader="true" HeaderText="OPSI" ItemStyle-CssClass="myRow" HeaderStyle-CssClass="myRow">
-                                                                <ItemTemplate>
-                                                                    <asp:HiddenField ID="HF_ID_BARANG" runat="server" Value='<%# Eval("KODE_PENJUALAN")%>' />
-                                                                    <asp:HiddenField ID="HF_KODE_KATEGORI" runat="server" Value='<%# Eval("KODE_KATEGORI")%>' />
-                                                                    <asp:HiddenField ID="HF_FILEPATH" runat="server" Value='<%# Eval("GAMBAR_FILEPATH") & Eval("GAMBAR_FILENAME")%>' />
-                                                                    <asp:LinkButton ID="EditButton" runat="server" CssClass="btn btn-sm btn-info" CommandName="Edit" data-toggle="tooltip" data-placement="left" title="Detail Invoice" PostBackUrl='<%# Eval("INVOICE_PENJUALAN", "~/kasir/reports/invoice-penjualan.aspx?inv={0}")%>'><i class="fas fa-info-circle"></i></asp:LinkButton>
-                                                                    <asp:LinkButton ID="DeleteButton" runat="server" CssClass="btn btn-sm btn-danger has-spinners" CommandName="Delete" data-toggle="tooltip" data-placement="right" title="Hapus" CommandArgument='<%# Container.DataItemIndex %>'><i class="fas fa-trash-alt"></i></asp:LinkButton>
-                                                                </ItemTemplate>
-                                                            </asp:TemplateField>
-                                                            <asp:TemplateField>
-                                                                <HeaderTemplate>GAMBAR</HeaderTemplate>
-                                                                <ItemTemplate>
-                                                                    <asp:Image ID="LbFilePath" runat="server" ImageUrl='<%# Eval("GAMBAR_FILEPATH") & Eval("GAMBAR_FILENAME")%>' Height="50px" Width="40px"></asp:Image>
-                                                                    <asp:Image ID="LbFilePath2" runat="server" Visible="false" ImageUrl="~/dist/img/No_Image-128.png" Height="50px" Width="40px"></asp:Image>
-                                                                </ItemTemplate>
-                                                            </asp:TemplateField>
-                                                            <asp:BoundField DataField="INVOICE_PENJUALAN" HeaderText="INVOICE" ReadOnly="True" />
-                                                            <asp:BoundField DataField="NAMA_BARANG" HeaderText="NAMA_BARANG" ReadOnly="True" />
-                                                            <asp:BoundField DataField="JUMLAH_BELI" HeaderText="BELI" ReadOnly="true" />
-                                                            <asp:BoundField DataField="HARGA_JUAL" HeaderText="HARGA_JUAL" ReadOnly="true" />
-                                                            <asp:BoundField DataField="TOTAL_BAYAR" HeaderText="TOTAL_BAYAR" ReadOnly="true" />
-                                                            <asp:BoundField DataField="STOK" HeaderText="STOK" ReadOnly="true" />
-                                                            <asp:BoundField DataField="NAMA_USER" HeaderText="KASIR" ReadOnly="true" />
-                                                            <asp:BoundField DataField="NAMA_KONSUMEN" HeaderText="KONSUMEN" ReadOnly="true" />
-                                                        </Columns>
-                                                    </asp:GridView>
+                                                    <div class="row">
+                                                        <div class="col-xs-12 col-sm-12 col-md-12">
+                                                            <div class="well well-sm">
+                                                                <div class="row">
+                                                                    <div class="col-sm-6 col-md-3">
+                                                                        <asp:Image ID="imgBarang" runat="server" CssClass="img-rounded" Width="180" Height="190" ImageUrl="~/dist/img/No_Image-128.png" />
+                                                                        <%--<img src="https://cf.shopee.co.id/file/bd75a32b54dc1f3a611ee1779e485778" height="200" width="180" alt="" class="img-rounded img-responsive" />--%>
+                                                                    </div>
+                                                                    <div class="col-sm-6 col-md-9">
+                                                                        <h4>
+                                                                            <asp:Label ID="TXTNAMABARANG" runat="server">BAJU</asp:Label></h4>
+                                                                        <small> <span class="badge badge-info"><asp:Label ID="TXTKATEGORI" runat="server" Text="Label"></asp:Label></span>
+                                                                            </small>
+                                                                        <p>
+                                                                            <asp:Label ID="TXTUKURAN" runat="server" Text="Label"></asp:Label>
+
+                                                                            <br />
+                                                                            <asp:Label ID="TXTHARGAJUAL" runat="server" Text="Label"></asp:Label>
+                                                                            <br />
+                                                                            <asp:Label ID="TXTTGLMASUK" runat="server" Text="Label"></asp:Label>
+                                                                        </p>
+                                                                        <!-- Split button -->
+                                                                        <div class="btn-group">
+                                                                            <asp:LinkButton ID="BT_S" runat="server" CssClass="btn btn-info" OnClick="BT_S_Click">S</asp:LinkButton>
+                                                                            <asp:LinkButton ID="BT_M" runat="server" CssClass="btn btn-primary">M</asp:LinkButton>
+                                                                            <asp:LinkButton ID="BT_L" runat="server" CssClass="btn btn-success">L</asp:LinkButton>
+                                                                            <asp:LinkButton ID="BT_XL" runat="server" CssClass="btn btn-warning">XL</asp:LinkButton>
+                                                                            <asp:LinkButton ID="BT_XXL" runat="server" CssClass="btn btn-danger">XXL</asp:LinkButton>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <br />
+                                                    <div class="table-responsive">
+                                                        <asp:GridView ID="GVBARANG" runat="server" CssClass="table table-striped"
+                                                            AutoGenerateColumns="false" EnableSortingAndPagingCallbacks="false" RowStyle-CssClass="myRow"
+                                                            DataKeyNames="KODE_BARANG" GridLines="None">
+                                                            <Columns>
+                                                                <asp:TemplateField HeaderText="NO.">
+                                                                    <ItemTemplate>
+                                                                        <%# Container.DataItemIndex + 1 %>
+                                                                    </ItemTemplate>
+                                                                </asp:TemplateField>
+                                                                <asp:BoundField DataField="TANGGAL_MASUK" HeaderText="TANGGAL" ReadOnly="true" DataFormatString="{0: d MMMM yyyy}" />
+                                                                <asp:BoundField DataField="JUMLAH_MASUK" HeaderText="MASUK" ReadOnly="true" />
+                                                                <asp:BoundField DataField="JUMLAH_BELI" HeaderText="KELUAR" ReadOnly="true" />
+                                                                <asp:BoundField DataField="STOK" HeaderText="STOK" ReadOnly="true" />
+                                                                <asp:BoundField DataField="KETERANGAN_PENERIMAAN" HeaderText="KETERANGAN" ReadOnly="true" NullDisplayText="-" />
+                                                            </Columns>
+                                                            <EmptyDataTemplate>
+                                                                Transaksi tidak ditemukan!
+                                                            </EmptyDataTemplate>
+                                                        </asp:GridView>
+                                                    </div>
                                                     <asp:Image ID="loadingImg" runat="server" ImageUrl="~/dist/img/loading.gif" />
                                                 </div>
                                             </ContentTemplate>
@@ -344,7 +348,7 @@
                                                 <asp:AsyncPostBackTrigger ControlID="BTREFRESH" EventName="Click" />
                                                 <asp:AsyncPostBackTrigger ControlID="BTCARITGL" EventName="Click" />
                                                 <asp:AsyncPostBackTrigger ControlID="TXTPERIODE" EventName="SelectedIndexChanged" />
-                                                <asp:AsyncPostBackTrigger ControlID="TXTTAHUN" EventName="SelectedIndexChanged" />
+                                                <asp:AsyncPostBackTrigger ControlID="BT_S" EventName="Click" />
                                             </Triggers>
                                         </asp:UpdatePanel>
                                     </ContentTemplate>
@@ -355,20 +359,19 @@
                             </div>
                         </div>
                         <div class="card-footer">
-                            <asp:LinkButton ID="BTPRINTALL" runat="server" CssClass="btn btn-success" OnClientClick="return PrintDiv('ContentToPrint');"><i class="fas fa-print"></i>&nbsp;Print Semua</asp:LinkButton>
-                            <asp:LinkButton ID="BTPRINTSELECTED" runat="server" CssClass="btn btn-primary"><i class="fa fa-check-circle"></i>&nbsp;Print dipilih</asp:LinkButton>
+                            <asp:LinkButton ID="BTPRINTALL" runat="server" CssClass="btn btn-success"><i class="fas fa-print"></i>&nbsp;Print</asp:LinkButton>
                         </div>
                     </div>
                 </section>
             </div>
 
-            <div class="modal fade" id="modal-lap-harian">
+            <div class="modal fade" id="modal-lap-harian" data-backdrop="static" data-keyboard="false">
                 <div class="modal-dialog">
                     <div class="modal-content bg-primary">
                         <div class="modal-header">
                             <h4 class="modal-title">Informasi</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span></button>
+                            <%--<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span></button>--%>
                         </div>
                         <div class="modal-body">
                             <div class="card card-primary">
@@ -379,8 +382,24 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="input-group input-group-sm mb-0">
-                                                <asp:TextBox ID="TXTTGLDARI" runat="server" CssClass="form-control" placeholder="Dari Tanggal"></asp:TextBox>
-                                                <asp:TextBox ID="TXTTGLSAMPAI" runat="server" CssClass="form-control" placeholder="Sampai Tanggal"></asp:TextBox>
+                                                <asp:SqlDataSource ID="SqlDataSource2" runat="server"
+                                                    ConnectionString="<%$ ConnectionStrings:DB_Penjualan_Butik_ConnectionString %>"
+                                                    SelectCommand="SELECT DISTINCT NAMA_BARANG FROM VW_PENERIMAAN"></asp:SqlDataSource>
+                                                <asp:DropDownList ID="DDLBARANG" AppendDataBoundItems="true" CssClass="form-control select2"
+                                                    Style="width: 40%;" runat="server" DataSourceID="SqlDataSource2" DataTextField="NAMA_BARANG">
+                                                    <asp:ListItem>--Pilih Barang--</asp:ListItem>
+                                                </asp:DropDownList>
+                                                <asp:HiddenField ID="HFBARANG" runat="server" />
+                                                <asp:Label ID="LBBARANG" runat="server" Style="color: #dc3545"></asp:Label>
+                                                <asp:SqlDataSource ID="SqlDataSource1" runat="server"
+                                                    ConnectionString="<%$ ConnectionStrings:DB_Penjualan_Butik_ConnectionString %>"
+                                                    SelectCommand="SELECT DISTINCT PERIODE FROM T_PENERIMAAN"></asp:SqlDataSource>
+                                                <asp:DropDownList ID="TXTPERIODE" AppendDataBoundItems="true" CssClass="form-control select2"
+                                                    Style="width: 40%;" runat="server" DataSourceID="SqlDataSource1" DataTextField="PERIODE">
+                                                    <asp:ListItem>--Pilih Periode--</asp:ListItem>
+                                                </asp:DropDownList>
+                                                <asp:HiddenField ID="TXTIDSUPPLIER" runat="server" />
+                                                <asp:Label ID="LBINFOSUPPLIER" runat="server" Style="color: #dc3545"></asp:Label>
                                                 <div class="input-group-append">
                                                     <asp:LinkButton ID="BTCARITGL" runat="server" OnClick="BTCARITGL_Click" CssClass="btn btn-primary has-spinners">Cari</asp:LinkButton>
                                                 </div>
@@ -391,7 +410,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-dismiss="modal">Keluar</button>
+                            <%--<button type="button" class="btn btn-primary" data-dismiss="modal">Keluar</button>--%>
                         </div>
                     </div>
                     <!-- /.modal-content -->
@@ -415,16 +434,6 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-12">
-                                            <asp:SqlDataSource ID="SqlDataSource1" runat="server"
-                                                ConnectionString="<%$ ConnectionStrings:DB_Penjualan_Butik_ConnectionString %>"
-                                                SelectCommand="SELECT DISTINCT PERIODE FROM T_PENERIMAAN"></asp:SqlDataSource>
-                                            <asp:DropDownList ID="TXTPERIODE" AppendDataBoundItems="true" CssClass="form-control select2"
-                                                Style="width: 100%;" runat="server" DataSourceID="SqlDataSource1" DataTextField="PERIODE"
-                                                OnSelectedIndexChanged="TXTPERIODE_SelectedIndexChanged" AutoPostBack="true" EnableViewState="false">
-                                                <asp:ListItem>--Pilih--</asp:ListItem>
-                                            </asp:DropDownList>
-                                            <asp:HiddenField ID="TXTIDSUPPLIER" runat="server" />
-                                            <asp:Label ID="LBINFOSUPPLIER" runat="server" Style="color: #dc3545"></asp:Label>
                                         </div>
                                     </div>
                                 </div>
@@ -440,32 +449,16 @@
             </div>
 
             <div class="modal fade" id="modal-lap-tahunan">
-                <div class="modal-dialog">
-                    <div class="modal-content bg-danger">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
                         <div class="modal-header">
                             <h4 class="modal-title">Informasi</h4>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span></button>
                         </div>
                         <div class="modal-body">
-                            <div class="card card-danger">
-                                <div class="card-header">
-                                    <h3 class="card-title">Tahunan</h3>
-                                </div>
+                            <div class="card">
                                 <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <asp:SqlDataSource ID="SqlDataSource2" runat="server"
-                                                ConnectionString="<%$ ConnectionStrings:DB_Penjualan_Butik_ConnectionString %>"
-                                                SelectCommand="SELECT DISTINCT YEAR(TANGGAL_MASUK) AS TAHUN FROM T_PENERIMAAN"></asp:SqlDataSource>
-                                            <asp:DropDownList ID="TXTTAHUN" AppendDataBoundItems="true" CssClass="form-control select2"
-                                                Style="width: 100%;" runat="server" DataSourceID="SqlDataSource2" DataTextField="TAHUN"
-                                                OnSelectedIndexChanged="TXTTAHUN_SelectedIndexChanged" AutoPostBack="true" EnableViewState="false">
-                                                <asp:ListItem>--Pilih--</asp:ListItem>
-                                            </asp:DropDownList>
-                                            <asp:Label ID="Label1" runat="server" Style="color: #dc3545"></asp:Label>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -506,36 +499,6 @@
                     </div>
                 </div>
             </div>
-
-            <div class="modal fade" id="modal-lap-namabarang">
-                <div class="modal-dialog">
-                    <div class="modal-content bg-warning">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Informasi</h4>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="card card-warning">
-                                <div class="card-header">
-                                    <h3 class="card-title">Nama Barang</h3>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <asp:TextBox ID="TXTNAMABARANG" runat="server" placeholder="Masukkan Nama Barang" CssClass="form-control" onkeyup="RefreshUpdatePanel();" AutoPostBack="true" OnTextChanged="TXTNAMAKONSUMEN_TextChanged"></asp:TextBox>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-dismiss="modal">Keluar</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
 
             <div class="modal fade" id="modal-detail-invoice">
                 <div class="modal-dialog modal-lg">
@@ -635,43 +598,18 @@
                 }, 2000);
                 $("[id*=BTCARITGL]").buttonLoader('stop');
             }
+
+            function showModal() {
+                $('#modal-lap-harian').modal('show');
+                $('#modal-lap-harian').modal({
+                    backdrop: 'static',
+                    keyboard: false
+                });
+            }
         </script>
 
         <script type="text/javascript">
             $(function () {
-                //$("#TXTTGLPENERIMAAN").datepicker();
-                $("#TXTTGLDARI").datepicker({
-                    beforeShow: function () {
-                        setTimeout(function () {
-                            $('.ui-datepicker').css('z-index', 99999999999999);
-                        }, 0);
-                    },
-                    onSelect: function () {
-                        $("[id*=LbTGLPENERIMAAN]").text(null);
-                        $("#TXTTGLDARI").datepicker("option", "dateFormat", "dd/mm/yy");
-                        return false;
-                    }
-                });
-                $("#TXTTGLDARI").on("change", function () {
-                    $("#TXTTGLDARI").datepicker("option", "dateFormat", "dd/mm/yy");
-                });
-
-                $("#TXTTGLSAMPAI").datepicker({
-                    beforeShow: function () {
-                        setTimeout(function () {
-                            $('.ui-datepicker').css('z-index', 99999999999999);
-                        }, 0);
-                    },
-                    onSelect: function () {
-                        $("[id*=LbTGLPENERIMAAN]").text(null);
-                        $("#TXTTGLSAMPAI").datepicker("option", "dateFormat", "dd/mm/yy");
-                        return false;
-                    }
-                });
-                $("#TXTTGLSAMPAI").on("change", function () {
-                    $("#TXTTGLSAMPAI").datepicker("option", "dateFormat", "dd/mm/yy");
-                });
-
                 function Loading() {
                     $("#loadingImg").fadeIn().delay(3000);
                 }
@@ -680,11 +618,16 @@
                     $("#loadingImg").css("display", "block");
                     Loading();
                 });
-
-                $("#TXTPERIODE").on("change", function () {
-                    $("#loadingImg").css("display", "block");
-                    Loading();
+                
+                $("#BTPRINTALL").on("click", function () {
+                    $("#loadingImg").css("display", "none");
+                    return PrintDiv('ContentToPrint');
+                    return false;
                 });
+                //$("#TXTPERIODE").on("change", function () {
+                //    $("#loadingImg").css("display", "block");
+                //    Loading();
+                //});
 
                 $("#TXTTAHUN").on("change", function () {
                     $("#loadingImg").css("display", "block");
@@ -692,6 +635,13 @@
                 });
 
                 $("body").on("click", "[id*=BTCARITGL]", function () {
+                    $(this).buttonLoader('start');
+                    $("#loadingImg").css("display", "block");
+                    Loading();
+                    $('#modal-lap-harian').modal('toggle');
+                });
+
+                $("body").on("click", "[id*=BT_S]", function () {
                     $(this).buttonLoader('start');
                     $("#loadingImg").css("display", "block");
                     Loading();
@@ -750,19 +700,9 @@
                     }
                 });
 
-                $("#TXTJENISLAPORAN").change(function () {
-                    var value = $(this);
-
-                    if (value.val() == 'Laporan Harian') {
-                        $('#modal-lap-harian').modal('show');
-                    } else if (value.val() == 'Laporan Tahunan') {
-                        $('#modal-lap-tahunan').modal('show');
-                    } else if (value.val() == 'Laporan Bulanan') {
-                        $('#modal-lap-bulanan').modal('show');
-                    }
-                    //else if (value.val() == 'supplier') {
-                    //    $('#modal-lap-supplier').modal('show');
-                    //}
+                $("body").on("click", "[id*=BTLIST]", function () {
+                    $('#modal-lap-harian').modal('show');
+                    return false;
                 });
 
                 $("input:checkbox").change(function () {

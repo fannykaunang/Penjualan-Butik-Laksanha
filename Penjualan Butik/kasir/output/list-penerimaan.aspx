@@ -24,6 +24,18 @@
     <link rel="stylesheet" href="../../plugins/alertify/css/alertify.default.css" id="toggleCSS" />
 
     <style>
+        #loadingImg {
+            display: none;
+            position: absolute;
+            margin: auto;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+    </style>
+
+    <style>
         .alertify-log-custom {
             background: #023da4;
         }
@@ -249,6 +261,7 @@
                         <div class="card-header">
                             <h3 class="card-title">Laporan Penerimaan Barang</h3>
                             <div class="card-tools">
+                                <asp:LinkButton ID="BTREFRESH" runat="server" ToolTip="Muat Ulang" CssClass="btn btn-tool" OnClick="BTREFRESH_Click"><i class="fas fa-sync"></i></asp:LinkButton>
                                 <button type="button" class="btn btn-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
                                     <i class="fas fa-minus"></i>
                                 </button>
@@ -278,52 +291,63 @@
                                                         </table>
                                                         <hr style="border: 3px solid black; border-radius: 5px;" />
                                                     </div>
-                                                    <asp:GridView ID="GVBARANG" runat="server" CssClass="table table-bordered table-striped table-hover js-basic-example dataTable"
-                                                        AutoGenerateColumns="false" EnableSortingAndPagingCallbacks="false" RowStyle-Wrap="false" role="grid" RowStyle-CssClass="myRow"
-                                                        DataKeyNames="KODE_BARANG" OnRowDataBound="GVBARANG_RowDataBound" Font-Size="X-Small" GridLines="Both">
-                                                        <Columns>
-                                                            <asp:TemplateField HeaderText="NO.">
-                                                                <ItemTemplate>
-                                                                    <%# Container.DataItemIndex + 1 %>
-                                                                </ItemTemplate>
-                                                            </asp:TemplateField>
-                                                            <asp:TemplateField ItemStyle-CssClass="myRow" HeaderStyle-CssClass="myRow">
-                                                                <HeaderTemplate>
-                                                                    <asp:CheckBox ID="chkAllSelect" runat="server" />
-                                                                </HeaderTemplate>
-                                                                <ItemTemplate>
-                                                                    <asp:CheckBox ID="chkSelect" runat="server" />
-                                                                    <asp:HiddenField ID="hfKODE_BARANG" runat="server" Value='<%# Eval("KODE_BARANG")%>' />
-                                                                    <asp:HiddenField ID="HFIDBARANG" runat="server" Value='<%# Eval("KODE_BARANG")%>' />
-                                                                </ItemTemplate>
-                                                            </asp:TemplateField>
-                                                            <asp:TemplateField ShowHeader="true" HeaderText="OPSI" ItemStyle-CssClass="myRow" HeaderStyle-CssClass="myRow">
-                                                        <ItemTemplate>
-                                                            <asp:HiddenField ID="HF_ID_BARANG" runat="server" Value='<%# Eval("KODE_PENERIMAAN")%>' />
-                                                            <asp:HiddenField ID="HF_KODE_KATEGORI" runat="server" Value='<%# Eval("KODE_KATEGORI")%>' />
-                                                            <asp:HiddenField ID="HF_FILEPATH" runat="server" Value='<%# Eval("GAMBAR_FILEPATH") & Eval("GAMBAR_FILENAME")%>' />
-                                                            <asp:LinkButton ID="EditButton" runat="server" CssClass="btn btn-sm btn-success" CommandName="Edit" data-toggle="tooltip" data-placement="left" title="Detail Invoice" PostBackUrl='<%# Eval("INVOICE_PENERIMAAN", "~/kasir/reports/invoice-penerimaan.aspx?inv={0}")%>'><i class="fas fa-info-circle"></i></asp:LinkButton>
-                                                            <asp:LinkButton ID="DeleteButton" runat="server" CssClass="btn btn-sm btn-danger has-spinners" CommandName="Delete" data-toggle="tooltip" data-placement="right" title="Hapus" CommandArgument='<%# Container.DataItemIndex %>'><i class="fas fa-trash-alt"></i></asp:LinkButton>
-                                                        </ItemTemplate>
-                                                    </asp:TemplateField>
-                                                            <asp:TemplateField>
-                                                                <HeaderTemplate>GAMBAR</HeaderTemplate>
-                                                                <ItemTemplate>
-                                                                    <asp:Image ID="LbFilePath" runat="server" ImageUrl='<%# Eval("GAMBAR_FILEPATH") & Eval("GAMBAR_FILENAME")%>' Height="50px" Width="40px"></asp:Image>
-                                                                    <asp:Image ID="LbFilePath2" runat="server" Visible="false" ImageUrl="~/dist/img/No_Image-128.png" Height="50px" Width="40px"></asp:Image>
-                                                                </ItemTemplate>
-                                                            </asp:TemplateField>
-                                                            <asp:BoundField DataField="INVOICE_PENERIMAAN" HeaderText="INVOICE" ReadOnly="True" />
-                                                            <asp:BoundField DataField="NAMA_BARANG" HeaderText="NAMA_BARANG" ReadOnly="True" />
-                                                            <asp:BoundField DataField="JUMLAH_MASUK" HeaderText="MASUK" ReadOnly="true" />
-                                                            <asp:BoundField DataField="HARGA_BELI" HeaderText="HARGA_BELI" ReadOnly="true" />
-                                                            <asp:BoundField DataField="HARGA_JUAL" HeaderText="HARGA_JUAL" ReadOnly="true" />
-                                                            <asp:BoundField DataField="TOTAL_HARGA" HeaderText="TOTAL_HARGA" ReadOnly="true" />
-                                                            <asp:BoundField DataField="STOK" HeaderText="STOK" ReadOnly="true" />
-                                                            <asp:BoundField DataField="NAMA_USER" HeaderText="KASIR" ReadOnly="true" />
-                                                            <asp:BoundField DataField="NAMA_SUPPLIER" HeaderText="SUPPLIER" ReadOnly="true" />
-                                                        </Columns>
-                                                    </asp:GridView>
+                                                    <asp:UpdatePanel ID="UpdatePanel3" runat="server" ChildrenAsTriggers="true" UpdateMode="Conditional">
+                                                        <ContentTemplate>
+                                                            <asp:GridView ID="GVBARANG" runat="server" CssClass="table table-bordered table-striped table-hover js-basic-example dataTable"
+                                                                AutoGenerateColumns="false" EnableSortingAndPagingCallbacks="false" RowStyle-Wrap="false" role="grid" RowStyle-CssClass="myRow"
+                                                                DataKeyNames="KODE_BARANG" OnRowDataBound="GVBARANG_RowDataBound" Font-Size="X-Small" GridLines="Both">
+                                                                <Columns>
+                                                                    <asp:TemplateField HeaderText="NO.">
+                                                                        <ItemTemplate>
+                                                                            <%# Container.DataItemIndex + 1 %>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField ItemStyle-CssClass="myRow" HeaderStyle-CssClass="myRow">
+                                                                        <HeaderTemplate>
+                                                                            <asp:CheckBox ID="chkAllSelect" runat="server" />
+                                                                        </HeaderTemplate>
+                                                                        <ItemTemplate>
+                                                                            <asp:CheckBox ID="chkSelect" runat="server" />
+                                                                            <asp:HiddenField ID="hfKODE_BARANG" runat="server" Value='<%# Eval("KODE_BARANG")%>' />
+                                                                            <asp:HiddenField ID="HFIDBARANG" runat="server" Value='<%# Eval("KODE_BARANG")%>' />
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField ShowHeader="true" HeaderText="OPSI" ItemStyle-CssClass="myRow" HeaderStyle-CssClass="myRow">
+                                                                        <ItemTemplate>
+                                                                            <asp:HiddenField ID="HF_ID_BARANG" runat="server" Value='<%# Eval("KODE_PENERIMAAN")%>' />
+                                                                            <asp:HiddenField ID="HF_KODE_KATEGORI" runat="server" Value='<%# Eval("KODE_KATEGORI")%>' />
+                                                                            <asp:HiddenField ID="HF_FILEPATH" runat="server" Value='<%# Eval("GAMBAR_FILEPATH") & Eval("GAMBAR_FILENAME")%>' />
+                                                                            <asp:LinkButton ID="EditButton" runat="server" CssClass="btn btn-sm btn-info" CommandName="Edit" data-toggle="tooltip" data-placement="left" title="Detail Invoice" PostBackUrl='<%# Eval("INVOICE_PENERIMAAN", "~/kasir/reports/invoice-penerimaan.aspx?inv={0}")%>'><i class="fas fa-info-circle"></i></asp:LinkButton>
+                                                                            <asp:LinkButton ID="DeleteButton" runat="server" CssClass="btn btn-sm btn-danger has-spinners" CommandName="Delete" data-toggle="tooltip" data-placement="right" title="Hapus" CommandArgument='<%# Container.DataItemIndex %>'><i class="fas fa-trash-alt"></i></asp:LinkButton>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField>
+                                                                        <HeaderTemplate>GAMBAR</HeaderTemplate>
+                                                                        <ItemTemplate>
+                                                                            <asp:Image ID="LbFilePath" runat="server" ImageUrl='<%# Eval("GAMBAR_FILEPATH") & Eval("GAMBAR_FILENAME")%>' Height="50px" Width="40px"></asp:Image>
+                                                                            <asp:Image ID="LbFilePath2" runat="server" Visible="false" ImageUrl="~/dist/img/No_Image-128.png" Height="50px" Width="40px"></asp:Image>
+                                                                        </ItemTemplate>
+                                                                    </asp:TemplateField>
+                                                                    <asp:BoundField DataField="INVOICE_PENERIMAAN" HeaderText="INVOICE" ReadOnly="True" />
+                                                                    <asp:BoundField DataField="NAMA_BARANG" HeaderText="NAMA_BARANG" ReadOnly="True" />
+                                                                    <asp:BoundField DataField="JUMLAH_MASUK" HeaderText="MASUK" ReadOnly="true" />
+                                                                    <asp:BoundField DataField="HARGA_BELI" HeaderText="HARGA_BELI" ReadOnly="true" DataFormatString="{0:C2}" />
+                                                                    <asp:BoundField DataField="HARGA_JUAL" HeaderText="HARGA_JUAL" ReadOnly="true" DataFormatString="{0:C2}" />
+                                                                    <asp:BoundField DataField="TOTAL_HARGA" HeaderText="TOTAL_HARGA" ReadOnly="true" DataFormatString="{0:C2}" />
+                                                                    <asp:BoundField DataField="STOK" HeaderText="STOK" ReadOnly="true" />
+                                                                    <asp:BoundField DataField="NAMA_USER" HeaderText="KASIR" ReadOnly="true" />
+                                                                    <asp:BoundField DataField="NAMA_SUPPLIER" HeaderText="SUPPLIER" ReadOnly="true" />
+                                                                </Columns>
+                                                            </asp:GridView>
+                                                            <asp:Image ID="loadingImg" runat="server" ImageUrl="~/dist/img/loading.gif" />
+                                                        </ContentTemplate>
+                                                        <Triggers>
+                                                            <asp:AsyncPostBackTrigger ControlID="BTREFRESH" EventName="Click" />
+                                                            <asp:AsyncPostBackTrigger ControlID="BTCARITGL" EventName="Click" />
+                                                            <asp:AsyncPostBackTrigger ControlID="TXTPERIODE" EventName="SelectedIndexChanged" />
+                                                            <asp:AsyncPostBackTrigger ControlID="TXTTAHUN" EventName="SelectedIndexChanged" />
+                                                        </Triggers>
+                                                    </asp:UpdatePanel>
                                                 </div>
                                             </ContentTemplate>
                                             <Triggers>
@@ -616,6 +640,7 @@
                 $('html, body').animate({
                     scrollTop: parseInt($("#BTPRINTALL").offset().top)
                 }, 2000);
+                $("[id*=BTCARITGL]").buttonLoader('stop');
             }
         </script>
 
@@ -652,6 +677,29 @@
                 });
                 $("#TXTTGLSAMPAI").on("change", function () {
                     $("#TXTTGLSAMPAI").datepicker("option", "dateFormat", "dd/mm/yy");
+                });
+
+                function Loading() {
+                    $("#loadingImg").fadeIn().delay(3000);
+                }
+
+                $("#BTREFRESH").on("click", function () {
+                    $("#loadingImg").css("display", "block");
+                    Loading();
+                    //$("#loadingImg").fadeIn("slow");
+                    //setTimeout(function () {
+                    //    Complete();
+                    //}, 6000);
+                });
+
+                $("#TXTPERIODE").on("change", function () {
+                    $("#loadingImg").css("display", "block");
+                    Loading();
+                });
+
+                $("#TXTTAHUN").on("change", function () {
+                    $("#loadingImg").css("display", "block");
+                    Loading();
                 });
 
                 $("#<%=UpdatePanel1.ClientID %>").on("click", "[id*=GVBARANG] [id*=DeleteButton]", function (e) {
@@ -763,6 +811,8 @@
 
                 $("body").on("click", "[id*=BTCARITGL]", function () {
                     $(this).buttonLoader('start');
+                    $("#loadingImg").css("display", "block");
+                    Loading();
                 });
             });
         </script>

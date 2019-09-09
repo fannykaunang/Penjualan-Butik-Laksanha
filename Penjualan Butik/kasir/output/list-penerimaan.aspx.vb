@@ -11,7 +11,7 @@ Partial Class kasir_output_list_penerimaan
       If Session("KODE_USER") IsNot Nothing Then
         Me.GET_USERS(Session("KODE_USER").ToString)
 
-        Me.GET_BIND_GRID_SPAREPART()
+        Me.GET_BIND_GRID()
 
       Else
         Response.Redirect("~/account/Login.aspx?next-url=~/kasir/output/list-penerimaan.aspx", True)
@@ -61,7 +61,7 @@ Partial Class kasir_output_list_penerimaan
     End Using
   End Function
 
-  Private Sub GET_BIND_GRID_SPAREPART()
+  Private Sub GET_BIND_GRID()
     Dim strQuery As String = "SELECT * FROM VW_PENERIMAAN"
 
     Using cmd As SqlCommand = New SqlCommand(strQuery)
@@ -73,15 +73,11 @@ Partial Class kasir_output_list_penerimaan
 
   Protected Sub GVBARANG_PageIndexChanging(sender As Object, e As GridViewPageEventArgs)
     Me.GVBARANG.PageIndex = e.NewPageIndex
-    Me.GET_BIND_GRID_SPAREPART()
+    Me.GET_BIND_GRID()
     Me.GVBARANG.DataBind()
     Me.UpdatePanel1.UpdateMode = UpdatePanelUpdateMode.Always
     Me.UpdatePanel1.ChildrenAsTriggers = True
     'Me.UpdatePanel1.Update()
-  End Sub
-
-  Protected Sub BTREFRESH_Click(sender As Object, e As EventArgs)
-    Dim dt As DataTable = TryCast(ViewState("CurrentTable"), DataTable)
   End Sub
 
   Protected Sub LinkButton1_Click(sender As Object, e As EventArgs)
@@ -119,6 +115,7 @@ Partial Class kasir_output_list_penerimaan
     Response.Redirect("~/account/Login.aspx?next-url=~/Default.aspx", True)
   End Sub
   Protected Sub TXTPERIODE_SelectedIndexChanged(sender As Object, e As EventArgs)
+    Threading.Thread.Sleep(1000)
     Dim strQuery As String = "SELECT * " +
         "FROM VW_PENERIMAAN WHERE PERIODE = @PERIODE"
 
@@ -131,6 +128,7 @@ Partial Class kasir_output_list_penerimaan
   End Sub
 
   Protected Sub BTCARITGL_Click(sender As Object, e As EventArgs)
+    Threading.Thread.Sleep(1000)
     Dim strQuery As String = "SELECT * " +
                 "FROM VW_PENERIMAAN WHERE TANGGAL_MASUK >= Convert(DateTime, @TANGGAL1) AND TANGGAL_MASUK < Convert(DateTime, @TANGGAL2) + 1"
 
@@ -143,6 +141,7 @@ Partial Class kasir_output_list_penerimaan
     End Using
   End Sub
   Protected Sub TXTTAHUN_SelectedIndexChanged(sender As Object, e As EventArgs)
+    Threading.Thread.Sleep(1000)
     Dim strQuery As String = "SELECT * " +
             "FROM VW_PENERIMAAN WHERE YEAR(TANGGAL_MASUK) = @TGL_MASUK"
 
@@ -183,4 +182,9 @@ Partial Class kasir_output_list_penerimaan
       End Using
     End Using
   End Function
+
+  Protected Sub BTREFRESH_Click(sender As Object, e As EventArgs)
+    Threading.Thread.Sleep(1000)
+    GET_BIND_GRID()
+  End Sub
 End Class

@@ -663,10 +663,6 @@
                     $("#loadingImg").fadeIn().delay(3000);
                 }
 
-                function Complete() {
-                    $("#loadingImg").fadeOut(1000);
-                }
-
                 $("#BTREFRESH").on("click", function () {
                     $("#loadingImg").css("display", "block");
                     Loading();

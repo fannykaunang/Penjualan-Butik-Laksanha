@@ -1,5 +1,7 @@
 <%@ Application Language="VB" %>
 <%@ Import Namespace="System.Web.Routing" %>
+<%@ Import Namespace="System.Globalization" %>
+<%@ Import Namespace="System.Threading" %>
 
 <script runat="server">
 
@@ -30,6 +32,22 @@
       ' Note: The Session_End event is raised only when the sessionstate mode
       ' is set to InProc in the Web.config file. If session mode is set to StateServer 
       ' or SQLServer, the event is not raised.
+    End Sub
+
+    Sub Application_BeginRequest(ByVal sender As Object, ByVal e As EventArgs)
+      ' Fires at the beginning of each request '
+      Dim culture As CultureInfo
+      'Dim uri As Uri = Request.Url
+      'If uri.ToString().Contains("nederlands") Then
+      culture = New CultureInfo("id-ID")
+      'ElseIf Uri.ToString().Contains("polski") Then
+      'culture = New CultureInfo("pl-PL")
+      'Else
+      'culture = New CultureInfo("en-US")
+      'End If
+
+      Thread.CurrentThread.CurrentCulture = culture
+      Thread.CurrentThread.CurrentUICulture = culture
     End Sub
 
 </script>
