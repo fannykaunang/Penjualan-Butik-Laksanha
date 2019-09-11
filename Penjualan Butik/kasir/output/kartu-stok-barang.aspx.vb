@@ -247,8 +247,7 @@ Partial Class kasir_output_kartu_stok_barang
     End Try
   End Sub
 
-
-  Private Sub GET_SEARCH_SMALL(NAMA_BARANG As String, PERIODE As String, UKURAN As String)
+  Private Sub GET_SEARCH_UKURAN(NAMA_BARANG As String, PERIODE As String, UKURAN As String)
     Dim strQuery As String = "SELECT * FROM VW_PENJUALAN WHERE NAMA_BARANG=@NAMA_BARANG AND PERIODE=@PERIODE AND UKURAN=@UKURAN"
 
     Using cmd As SqlCommand = New SqlCommand(strQuery)
@@ -260,8 +259,7 @@ Partial Class kasir_output_kartu_stok_barang
       Me.GVBARANG.PageSize = 10
     End Using
   End Sub
-
-  Protected Sub BT_S_Click(sender As Object, e As EventArgs)
+  Protected Sub BTNSMALL_Click(sender As Object, e As EventArgs)
     Threading.Thread.Sleep(1000)
     Try
       Using connect As New SqlClient.SqlConnection(ConfigurationManager.ConnectionStrings("DB_Penjualan_Butik_ConnectionString").ToString)
@@ -271,35 +269,247 @@ Partial Class kasir_output_kartu_stok_barang
           With cmd
             .Parameters.Add("@NAMA_BARANG", SqlDbType.VarChar).Value = Me.TXTNAMABARANG.Text
             .Parameters.Add("@PERIODE", SqlDbType.VarChar).Value = Me.TXTPERIODE.Text
-            .Parameters.Add("@UKURAN", SqlDbType.VarChar).Value = Me.BT_S.Text
+            .Parameters.Add("@UKURAN", SqlDbType.VarChar).Value = "Small"
             .CommandType = CommandType.Text
             .CommandText = str
             .Connection = connect
             .Connection.Open()
           End With
 
-          GET_SEARCH_SMALL(Me.TXTNAMABARANG.Text, Me.TXTPERIODE.Text, Me.BT_S.Text)
+          Me.GET_SEARCH_UKURAN(Me.TXTNAMABARANG.Text, Me.TXTPERIODE.Text, "Small")
 
           Using dr As SqlDataReader = cmd.ExecuteReader
-            dr.Read()
-            If dr.HasRows Then
-              Dim dt1 As DateTime = dr("TANGGAL_MASUK").ToString
-              Dim result1 As String = String.Format("{0:d MMMM yyyy}", dt1)
+            While dr.Read
 
-              Me.TXTNAMABARANG.Text = dr("NAMA_BARANG").ToString
-              Me.TXTKATEGORI.Text = "Kategori: " & dr("KATEGORI_BARANG").ToString
-              Me.TXTUKURAN.Text = "Ukuran: " & dr("UKURAN").ToString
-              Me.TXTHARGAJUAL.Text = "Harga Jual: " & String.Format("{0:c}", dr("HARGA_JUAL"))
-              Me.TXTTGLMASUK.Text = "Terakhir diperbarui: " & result1 'dr("TANGGAL_MASUK").ToString
-              Me.imgBarang.ImageUrl = dr("GAMBAR_FILEPATH").ToString & dr("GAMBAR_FILENAME").ToString
-            Else
-              Me.TXTNAMABARANG.Text = "Barang tidak ditemukan"
-              Me.TXTKATEGORI.Text = "Kategori tidak ditemukan"
-              Me.TXTUKURAN.Text = "Ukuran tidak ditemukan"
-              Me.TXTHARGAJUAL.Text = "Harga Jual tidak ditemukan"
-              Me.TXTTGLMASUK.Text = "Tanggal Masuk tidak ditemukan"
-              Me.imgBarang.ImageUrl = "~/dist/img/No_Image-128.png"
+              If dr.HasRows Then
+
+                If dr("NAMA_BARANG") = String.Empty Then
+                  Me.TXTNAMABARANG.Text = "Barang tidak ditemukan"
+                  Me.TXTKATEGORI.Text = "Kategori tidak ditemukan"
+                  Me.TXTUKURAN.Text = "Ukuran tidak ditemukan"
+                  Me.TXTHARGAJUAL.Text = "Harga Jual tidak ditemukan"
+                  Me.TXTTGLMASUK.Text = "Tanggal Masuk tidak ditemukan"
+                  Me.imgBarang.ImageUrl = "~/dist/img/No_Image-128.png"
+                Else
+                  Dim dt1 As DateTime = dr("TANGGAL_MASUK").ToString
+                  Dim result1 As String = String.Format("{0:d MMMM yyyy}", dt1)
+
+                  Me.TXTNAMABARANG.Text = dr("NAMA_BARANG").ToString
+                  Me.TXTKATEGORI.Text = "Kategori: " & dr("KATEGORI_BARANG").ToString
+                  Me.TXTUKURAN.Text = "Ukuran: " & dr("UKURAN").ToString
+                  Me.TXTHARGAJUAL.Text = "Harga Jual: " & String.Format("{0:c}", dr("HARGA_JUAL"))
+                  Me.TXTTGLMASUK.Text = "Terakhir diperbarui: " & result1 'dr("TANGGAL_MASUK").ToString
+                  Me.imgBarang.ImageUrl = dr("GAMBAR_FILEPATH").ToString & dr("GAMBAR_FILENAME").ToString
+                End If
+              End If
+            End While
+          End Using
+        End Using
+      End Using
+    Catch ex As Exception
+      Response.Write(ex.Message)
+    End Try
+  End Sub
+  Protected Sub BT_M_Click(sender As Object, e As EventArgs)
+    Threading.Thread.Sleep(1000)
+    Try
+      Using connect As New SqlClient.SqlConnection(ConfigurationManager.ConnectionStrings("DB_Penjualan_Butik_ConnectionString").ToString)
+        Dim str As String = "SELECT * FROM VW_PENJUALAN WHERE NAMA_BARANG=@NAMA_BARANG AND PERIODE=@PERIODE AND UKURAN=@UKURAN"
+        Using cmd As New SqlCommand(str, connect)
+
+          With cmd
+            .Parameters.Add("@NAMA_BARANG", SqlDbType.VarChar).Value = Me.TXTNAMABARANG.Text
+            .Parameters.Add("@PERIODE", SqlDbType.VarChar).Value = Me.TXTPERIODE.Text
+            .Parameters.Add("@UKURAN", SqlDbType.VarChar).Value = "Medium"
+            .CommandType = CommandType.Text
+            .CommandText = str
+            .Connection = connect
+            .Connection.Open()
+          End With
+
+          Me.GET_SEARCH_UKURAN(Me.TXTNAMABARANG.Text, Me.TXTPERIODE.Text, "Medium")
+
+          Using dr As SqlDataReader = cmd.ExecuteReader
+            'While dr.Read
+            dr.Read()
+
+            If dr.HasRows Then
+
+              If IsDBNull(dr.Item(0)) Then
+                Me.TXTNAMABARANG.Text = "Barang tidak ditemukan"
+                Me.TXTKATEGORI.Text = "Kategori tidak ditemukan"
+                Me.TXTUKURAN.Text = "Ukuran tidak ditemukan"
+                Me.TXTHARGAJUAL.Text = "Harga Jual tidak ditemukan"
+                Me.TXTTGLMASUK.Text = "Tanggal Masuk tidak ditemukan"
+                Me.imgBarang.ImageUrl = "~/dist/img/No_Image-128.png"
+              Else
+                Dim dt1 As DateTime = dr("TANGGAL_MASUK").ToString
+                Dim result1 As String = String.Format("{0:d MMMM yyyy}", dt1)
+
+                Me.TXTNAMABARANG.Text = dr("NAMA_BARANG").ToString
+                Me.TXTKATEGORI.Text = "Kategori: " & dr("KATEGORI_BARANG").ToString
+                Me.TXTUKURAN.Text = "Ukuran: " & dr("UKURAN").ToString
+                Me.TXTHARGAJUAL.Text = "Harga Jual: " & String.Format("{0:c}", dr("HARGA_JUAL"))
+                Me.TXTTGLMASUK.Text = "Terakhir diperbarui: " & result1 'dr("TANGGAL_MASUK").ToString
+                Me.imgBarang.ImageUrl = dr("GAMBAR_FILEPATH").ToString & dr("GAMBAR_FILENAME").ToString
+              End If
             End If
+            'End While
+          End Using
+        End Using
+      End Using
+    Catch ex As Exception
+      Response.Write(ex.Message)
+    End Try
+  End Sub
+
+  Protected Sub BT_L_Click(sender As Object, e As EventArgs)
+    Threading.Thread.Sleep(1000)
+    Try
+      Using connect As New SqlClient.SqlConnection(ConfigurationManager.ConnectionStrings("DB_Penjualan_Butik_ConnectionString").ToString)
+        Dim str As String = "SELECT * FROM VW_PENJUALAN WHERE NAMA_BARANG=@NAMA_BARANG AND PERIODE=@PERIODE AND UKURAN=@UKURAN"
+        Using cmd As New SqlCommand(str, connect)
+
+          With cmd
+            .Parameters.Add("@NAMA_BARANG", SqlDbType.VarChar).Value = Me.TXTNAMABARANG.Text
+            .Parameters.Add("@PERIODE", SqlDbType.VarChar).Value = Me.TXTPERIODE.Text
+            .Parameters.Add("@UKURAN", SqlDbType.VarChar).Value = "L (Large)"
+            .CommandType = CommandType.Text
+            .CommandText = str
+            .Connection = connect
+            .Connection.Open()
+          End With
+
+          Me.GET_SEARCH_UKURAN(Me.TXTNAMABARANG.Text, Me.TXTPERIODE.Text, "L (Large)")
+
+          Using dr As SqlDataReader = cmd.ExecuteReader
+            While dr.Read
+
+              If dr.HasRows Then
+
+                If dr("NAMA_BARANG") = String.Empty Then
+                  Me.TXTNAMABARANG.Text = "Barang tidak ditemukan"
+                  Me.TXTKATEGORI.Text = "Kategori tidak ditemukan"
+                  Me.TXTUKURAN.Text = "Ukuran tidak ditemukan"
+                  Me.TXTHARGAJUAL.Text = "Harga Jual tidak ditemukan"
+                  Me.TXTTGLMASUK.Text = "Tanggal Masuk tidak ditemukan"
+                  Me.imgBarang.ImageUrl = "~/dist/img/No_Image-128.png"
+                Else
+                  Dim dt1 As DateTime = dr("TANGGAL_MASUK").ToString
+                  Dim result1 As String = String.Format("{0:d MMMM yyyy}", dt1)
+
+                  Me.TXTNAMABARANG.Text = dr("NAMA_BARANG").ToString
+                  Me.TXTKATEGORI.Text = "Kategori: " & dr("KATEGORI_BARANG").ToString
+                  Me.TXTUKURAN.Text = "Ukuran: " & dr("UKURAN").ToString
+                  Me.TXTHARGAJUAL.Text = "Harga Jual: " & String.Format("{0:c}", dr("HARGA_JUAL"))
+                  Me.TXTTGLMASUK.Text = "Terakhir diperbarui: " & result1 'dr("TANGGAL_MASUK").ToString
+                  Me.imgBarang.ImageUrl = dr("GAMBAR_FILEPATH").ToString & dr("GAMBAR_FILENAME").ToString
+                End If
+              End If
+            End While
+          End Using
+        End Using
+      End Using
+    Catch ex As Exception
+      Response.Write(ex.Message)
+    End Try
+  End Sub
+  Protected Sub BT_XL_Click(sender As Object, e As EventArgs)
+    Threading.Thread.Sleep(1000)
+    Try
+      Using connect As New SqlClient.SqlConnection(ConfigurationManager.ConnectionStrings("DB_Penjualan_Butik_ConnectionString").ToString)
+        Dim str As String = "SELECT * FROM VW_PENJUALAN WHERE NAMA_BARANG=@NAMA_BARANG AND PERIODE=@PERIODE AND UKURAN=@UKURAN"
+        Using cmd As New SqlCommand(str, connect)
+
+          With cmd
+            .Parameters.Add("@NAMA_BARANG", SqlDbType.VarChar).Value = Me.TXTNAMABARANG.Text
+            .Parameters.Add("@PERIODE", SqlDbType.VarChar).Value = Me.TXTPERIODE.Text
+            .Parameters.Add("@UKURAN", SqlDbType.VarChar).Value = "XL (Extra Large)"
+            .CommandType = CommandType.Text
+            .CommandText = str
+            .Connection = connect
+            .Connection.Open()
+          End With
+
+          Me.GET_SEARCH_UKURAN(Me.TXTNAMABARANG.Text, Me.TXTPERIODE.Text, "XL (Extra Large)")
+
+          Using dr As SqlDataReader = cmd.ExecuteReader
+            While dr.Read
+
+              If dr.HasRows Then
+
+                If dr("NAMA_BARANG") = String.Empty Then
+                  Me.TXTNAMABARANG.Text = "Barang tidak ditemukan"
+                  Me.TXTKATEGORI.Text = "Kategori tidak ditemukan"
+                  Me.TXTUKURAN.Text = "Ukuran tidak ditemukan"
+                  Me.TXTHARGAJUAL.Text = "Harga Jual tidak ditemukan"
+                  Me.TXTTGLMASUK.Text = "Tanggal Masuk tidak ditemukan"
+                  Me.imgBarang.ImageUrl = "~/dist/img/No_Image-128.png"
+                Else
+                  Dim dt1 As DateTime = dr("TANGGAL_MASUK").ToString
+                  Dim result1 As String = String.Format("{0:d MMMM yyyy}", dt1)
+
+                  Me.TXTNAMABARANG.Text = dr("NAMA_BARANG").ToString
+                  Me.TXTKATEGORI.Text = "Kategori: " & dr("KATEGORI_BARANG").ToString
+                  Me.TXTUKURAN.Text = "Ukuran: " & dr("UKURAN").ToString
+                  Me.TXTHARGAJUAL.Text = "Harga Jual: " & String.Format("{0:c}", dr("HARGA_JUAL"))
+                  Me.TXTTGLMASUK.Text = "Terakhir diperbarui: " & result1 'dr("TANGGAL_MASUK").ToString
+                  Me.imgBarang.ImageUrl = dr("GAMBAR_FILEPATH").ToString & dr("GAMBAR_FILENAME").ToString
+                End If
+              End If
+            End While
+          End Using
+        End Using
+      End Using
+    Catch ex As Exception
+      Response.Write(ex.Message)
+    End Try
+  End Sub
+
+  Protected Sub BT_XXL_Click(sender As Object, e As EventArgs)
+    Threading.Thread.Sleep(1000)
+    Try
+      Using connect As New SqlClient.SqlConnection(ConfigurationManager.ConnectionStrings("DB_Penjualan_Butik_ConnectionString").ToString)
+        Dim str As String = "SELECT * FROM VW_PENJUALAN WHERE NAMA_BARANG=@NAMA_BARANG AND PERIODE=@PERIODE AND UKURAN=@UKURAN"
+        Using cmd As New SqlCommand(str, connect)
+
+          With cmd
+            .Parameters.Add("@NAMA_BARANG", SqlDbType.VarChar).Value = Me.TXTNAMABARANG.Text
+            .Parameters.Add("@PERIODE", SqlDbType.VarChar).Value = Me.TXTPERIODE.Text
+            .Parameters.Add("@UKURAN", SqlDbType.VarChar).Value = "XXL (Double Extra Large)"
+            .CommandType = CommandType.Text
+            .CommandText = str
+            .Connection = connect
+            .Connection.Open()
+          End With
+
+          Me.GET_SEARCH_UKURAN(Me.TXTNAMABARANG.Text, Me.TXTPERIODE.Text, "XXL (Double Extra Large)")
+
+          Using dr As SqlDataReader = cmd.ExecuteReader
+            While dr.Read
+
+              If dr.HasRows Then
+
+                If dr("NAMA_BARANG") = String.Empty Then
+                  Me.TXTNAMABARANG.Text = "Barang tidak ditemukan"
+                  Me.TXTKATEGORI.Text = "Kategori tidak ditemukan"
+                  Me.TXTUKURAN.Text = "Ukuran tidak ditemukan"
+                  Me.TXTHARGAJUAL.Text = "Harga Jual tidak ditemukan"
+                  Me.TXTTGLMASUK.Text = "Tanggal Masuk tidak ditemukan"
+                  Me.imgBarang.ImageUrl = "~/dist/img/No_Image-128.png"
+                Else
+                  Dim dt1 As DateTime = dr("TANGGAL_MASUK").ToString
+                  Dim result1 As String = String.Format("{0:d MMMM yyyy}", dt1)
+
+                  Me.TXTNAMABARANG.Text = dr("NAMA_BARANG").ToString
+                  Me.TXTKATEGORI.Text = "Kategori: " & dr("KATEGORI_BARANG").ToString
+                  Me.TXTUKURAN.Text = "Ukuran: " & dr("UKURAN").ToString
+                  Me.TXTHARGAJUAL.Text = "Harga Jual: " & String.Format("{0:c}", dr("HARGA_JUAL"))
+                  Me.TXTTGLMASUK.Text = "Terakhir diperbarui: " & result1 'dr("TANGGAL_MASUK").ToString
+                  Me.imgBarang.ImageUrl = dr("GAMBAR_FILEPATH").ToString & dr("GAMBAR_FILENAME").ToString
+                End If
+              End If
+            End While
           End Using
         End Using
       End Using

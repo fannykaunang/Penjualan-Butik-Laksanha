@@ -304,11 +304,11 @@
                                         <asp:DropDownList ID="TXTUKURAN" CssClass="form-control select2"
                                             Style="width: 100%;" runat="server">
                                             <asp:ListItem>--Pilih--</asp:ListItem>
-                                            <asp:ListItem>S (Small)</asp:ListItem>
-                                            <asp:ListItem>M (Medium)</asp:ListItem>
-                                            <asp:ListItem>L (Large)</asp:ListItem>
-                                            <asp:ListItem>XL (Extra Large)</asp:ListItem>
-                                            <asp:ListItem>XXL (Double Extra Large)</asp:ListItem>
+                                            <asp:ListItem>Small</asp:ListItem>
+                                            <asp:ListItem>Medium</asp:ListItem>
+                                            <asp:ListItem>Large</asp:ListItem>
+                                            <asp:ListItem>Extra Large</asp:ListItem>
+                                            <asp:ListItem>Double Extra Large</asp:ListItem>
                                         </asp:DropDownList>
                                         <span id="LBINFOUKURAN" class="help-block" style="color: #dc3545"></span>
                                     </div>

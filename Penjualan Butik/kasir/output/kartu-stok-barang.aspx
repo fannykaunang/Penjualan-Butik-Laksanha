@@ -82,7 +82,7 @@
                         <a href="../../Default.aspx" class="nav-link">Home</a>
                     </li>
                     <li class="nav-item d-none d-sm-inline-block">
-                       <asp:LinkButton ID="BTLIST" runat="server" CssClass="btn btn-primary"><i class="fas fa-search"></i>&nbsp;Tampilkan Opsi</asp:LinkButton>
+                        <asp:LinkButton ID="BTLIST" runat="server" CssClass="btn btn-primary"><i class="fas fa-search"></i>&nbsp;Tampilkan Opsi</asp:LinkButton>
                     </li>
                 </ul>
             </nav>
@@ -240,7 +240,7 @@
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
                                     <li class="breadcrumb-item"><a href="../../Default.aspx">Laporan</a></li>
-                                    <li class="breadcrumb-item active">Penjualan Barang</li>
+                                    <li class="breadcrumb-item active">Kartu Stok</li>
                                 </ol>
                             </div>
                         </div>
@@ -275,7 +275,7 @@
                                                                     <img src="../../dist/img/credit/boutique-logo.jpg" style="width: 60px"></td>
                                                                 <td style="width: 90%; text-align: center">
                                                                     <asp:Label ID="LBJUDULKOP" runat="server" Font-Size="X-Large" Font-Bold="true" Text="Laksanha Boutique"></asp:Label><br />
-                                                                    <asp:Label ID="LBJUDULLAPKOP" runat="server" Font-Size="Medium" Text="Laporan Penerimaan Barang"></asp:Label><br />
+                                                                    <asp:Label ID="LBJUDULLAPKOP" runat="server" Font-Size="Medium" Text="Laporan Kartu Stok Barang"></asp:Label><br />
                                                                     <asp:Label ID="LBALAMATKOP" runat="server" Font-Size="Small" Text="Alamat: Jalan"></asp:Label>
                                                                 </td>
                                                             </tr>
@@ -295,8 +295,9 @@
                                                                     <div class="col-sm-6 col-md-9">
                                                                         <h4>
                                                                             <asp:Label ID="TXTNAMABARANG" runat="server">BAJU</asp:Label></h4>
-                                                                        <small> <span class="badge badge-info"><asp:Label ID="TXTKATEGORI" runat="server" Text="Label"></asp:Label></span>
-                                                                            </small>
+                                                                        <small><span class="badge badge-info">
+                                                                            <asp:Label ID="TXTKATEGORI" runat="server" Text="Label"></asp:Label></span>
+                                                                        </small>
                                                                         <p>
                                                                             <asp:Label ID="TXTUKURAN" runat="server" Text="Label"></asp:Label>
 
@@ -307,11 +308,11 @@
                                                                         </p>
                                                                         <!-- Split button -->
                                                                         <div class="btn-group">
-                                                                            <asp:LinkButton ID="BT_S" runat="server" CssClass="btn btn-info" OnClick="BT_S_Click">S</asp:LinkButton>
-                                                                            <asp:LinkButton ID="BT_M" runat="server" CssClass="btn btn-primary">M</asp:LinkButton>
-                                                                            <asp:LinkButton ID="BT_L" runat="server" CssClass="btn btn-success">L</asp:LinkButton>
-                                                                            <asp:LinkButton ID="BT_XL" runat="server" CssClass="btn btn-warning">XL</asp:LinkButton>
-                                                                            <asp:LinkButton ID="BT_XXL" runat="server" CssClass="btn btn-danger">XXL</asp:LinkButton>
+                                                                            <asp:LinkButton ID="BTNSMALL" runat="server" CssClass="btn btn-info" OnClick="BTNSMALL_Click">S</asp:LinkButton>
+                                                                            <asp:LinkButton ID="BTMEDIUM" runat="server" CssClass="btn btn-primary" OnClick="BT_M_Click">M</asp:LinkButton>
+                                                                            <asp:LinkButton ID="BTLARGE" runat="server" CssClass="btn btn-success" OnClick="BT_L_Click">L</asp:LinkButton>
+                                                                            <asp:LinkButton ID="BTXLARGE" runat="server" CssClass="btn btn-warning" OnClick="BT_XL_Click">XL</asp:LinkButton>
+                                                                            <asp:LinkButton ID="BTXXLARGE" runat="server" CssClass="btn btn-danger" OnClick="BT_XXL_Click">XXL</asp:LinkButton>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -320,9 +321,9 @@
                                                     </div>
                                                     <br />
                                                     <div class="table-responsive">
-                                                        <asp:GridView ID="GVBARANG" runat="server" CssClass="table table-striped"
+                                                        <asp:GridView ID="GVBARANG" runat="server" CssClass="table table-striped" Font-Size="Small"
                                                             AutoGenerateColumns="false" EnableSortingAndPagingCallbacks="false" RowStyle-CssClass="myRow"
-                                                            DataKeyNames="KODE_BARANG" GridLines="None">
+                                                            DataKeyNames="KODE_BARANG" GridLines="None" RowStyle-Wrap="false" role="grid">
                                                             <Columns>
                                                                 <asp:TemplateField HeaderText="NO.">
                                                                     <ItemTemplate>
@@ -332,7 +333,7 @@
                                                                 <asp:BoundField DataField="TANGGAL_MASUK" HeaderText="TANGGAL" ReadOnly="true" DataFormatString="{0: d MMMM yyyy}" />
                                                                 <asp:BoundField DataField="JUMLAH_MASUK" HeaderText="MASUK" ReadOnly="true" />
                                                                 <asp:BoundField DataField="JUMLAH_BELI" HeaderText="KELUAR" ReadOnly="true" />
-                                                                <asp:BoundField DataField="STOK" HeaderText="STOK" ReadOnly="true" />
+                                                                <asp:BoundField DataField="STOK" HeaderText="STOK AKHIR" ReadOnly="true" />
                                                                 <asp:BoundField DataField="KETERANGAN_PENERIMAAN" HeaderText="KETERANGAN" ReadOnly="true" NullDisplayText="-" />
                                                             </Columns>
                                                             <EmptyDataTemplate>
@@ -348,12 +349,16 @@
                                                 <asp:AsyncPostBackTrigger ControlID="BTREFRESH" EventName="Click" />
                                                 <asp:AsyncPostBackTrigger ControlID="BTCARITGL" EventName="Click" />
                                                 <asp:AsyncPostBackTrigger ControlID="TXTPERIODE" EventName="SelectedIndexChanged" />
-                                                <asp:AsyncPostBackTrigger ControlID="BT_S" EventName="Click" />
                                             </Triggers>
                                         </asp:UpdatePanel>
                                     </ContentTemplate>
                                     <Triggers>
                                         <asp:AsyncPostBackTrigger ControlID="TXTNAMAKONSUMEN" EventName="TextChanged" />
+                                        <asp:AsyncPostBackTrigger ControlID="BTNSMALL" EventName="Click" />
+                                        <asp:AsyncPostBackTrigger ControlID="BTMEDIUM" EventName="Click" />
+                                        <asp:AsyncPostBackTrigger ControlID="BTLARGE" EventName="Click" />
+                                        <asp:AsyncPostBackTrigger ControlID="BTXLARGE" EventName="Click" />
+                                        <asp:AsyncPostBackTrigger ControlID="BTXXLARGE" EventName="Click" />
                                     </Triggers>
                                 </asp:UpdatePanel>
                             </div>
@@ -618,7 +623,7 @@
                     $("#loadingImg").css("display", "block");
                     Loading();
                 });
-                
+
                 $("#BTPRINTALL").on("click", function () {
                     $("#loadingImg").css("display", "none");
                     return PrintDiv('ContentToPrint');
@@ -635,13 +640,43 @@
                 });
 
                 $("body").on("click", "[id*=BTCARITGL]", function () {
+                    if ($("#DDLBARANG").val() == '--Pilih Barang--') {
+                        alert("Anda belum memilih Barang!");
+                    } else if ($("#TXTPERIODE").val() == '--Pilih Periode--') {
+                        alert("Anda belum memilih Periode!");
+                    } else {
+                        $(this).buttonLoader('start');
+                        $("#loadingImg").css("display", "block");
+                        Loading();
+                        $('#modal-lap-harian').modal('toggle');
+                    }
+                });
+
+                $("body").on("click", "[id*=BTNSMALL]", function () {
                     $(this).buttonLoader('start');
                     $("#loadingImg").css("display", "block");
                     Loading();
-                    $('#modal-lap-harian').modal('toggle');
                 });
 
-                $("body").on("click", "[id*=BT_S]", function () {
+                $("body").on("click", "[id*=BTMEDIUM]", function () {
+                    $(this).buttonLoader('start');
+                    $("#loadingImg").css("display", "block");
+                    Loading();
+                });
+
+                $("body").on("click", "[id*=BTLARGE]", function () {
+                    $(this).buttonLoader('start');
+                    $("#loadingImg").css("display", "block");
+                    Loading();
+                });
+
+                $("body").on("click", "[id*=BTXLARGE]", function () {
+                    $(this).buttonLoader('start');
+                    $("#loadingImg").css("display", "block");
+                    Loading();
+                });
+
+                $("body").on("click", "[id*=BTXXLARGE]", function () {
                     $(this).buttonLoader('start');
                     $("#loadingImg").css("display", "block");
                     Loading();
