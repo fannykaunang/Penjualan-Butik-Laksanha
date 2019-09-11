@@ -82,10 +82,9 @@
                     <div class="row">
                         <div class="col-7">
                             <div class="icheck-primary">
-                                <input type="checkbox" id="remember">
-                                <label for="remember">
-                                    Remember Me
-             
+                                <asp:CheckBox ID="chkRememberMe" runat="server" />
+                                <label for="chkRememberMe">
+                                    Ingatkan Saya
                                 </label>
                             </div>
                         </div>

@@ -8,6 +8,12 @@ Partial Class account_Login
   Private Sub account_Login_Load(sender As Object, e As EventArgs) Handles Me.Load
     If Not (IsPostBack) Then
       Me.TXTUSERNAME.Focus()
+      If ((Not (Request.Cookies("UserName")) Is Nothing) _
+                    AndAlso (Not (Request.Cookies("Password")) Is Nothing)) Then
+        TXTUSERNAME.Text = Request.Cookies("UserName").Value
+        TXTPASSWORD.Attributes("value") = Request.Cookies("Password").Value
+        chkRememberMe.Checked = True
+      End If
     End If
   End Sub
 
@@ -92,9 +98,31 @@ Partial Class account_Login
       Try
         Select Case GET_USERS()
           Case 1
+
+            If chkRememberMe.Checked Then
+              Response.Cookies("UserName").Expires = DateTime.Now.AddDays(30)
+              Response.Cookies("Password").Expires = DateTime.Now.AddDays(30)
+            Else
+              Response.Cookies("UserName").Expires = DateTime.Now.AddDays(-1)
+              Response.Cookies("Password").Expires = DateTime.Now.AddDays(-1)
+            End If
+            Response.Cookies("UserName").Value = TXTUSERNAME.Text.Trim
+            Response.Cookies("Password").Value = TXTPASSWORD.Text.Trim
+
             Session("KODE_USER") = Me.GET_ID_USER(Me.TXTUSERNAME.Text, Me.TXTPASSWORD.Text)
             Response.Redirect(Server.UrlDecode(url))
           Case 2
+
+            If chkRememberMe.Checked Then
+              Response.Cookies("UserName").Expires = DateTime.Now.AddDays(30)
+              Response.Cookies("Password").Expires = DateTime.Now.AddDays(30)
+            Else
+              Response.Cookies("UserName").Expires = DateTime.Now.AddDays(-1)
+              Response.Cookies("Password").Expires = DateTime.Now.AddDays(-1)
+            End If
+            Response.Cookies("UserName").Value = TXTUSERNAME.Text.Trim
+            Response.Cookies("Password").Value = TXTPASSWORD.Text.Trim
+
             Session("KODE_USER") = Me.GET_ID_USER(Me.TXTUSERNAME.Text, Me.TXTPASSWORD.Text)
             Response.Redirect(Server.UrlDecode(url))
           Case 0
