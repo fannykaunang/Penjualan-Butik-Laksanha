@@ -37,7 +37,7 @@ Partial Class kasir_output_list_barang
             dr.Read()
             If dr.HasRows Then
               Me.BTPROFILE.Text = dr("NAMA_USER").ToString
-              Me.imgUser.ImageUrl = dr("FOTO_FILEPATH").ToString
+              Me.imgUser.ImageUrl = dr("FOTO_FILEPATH").ToString & dr("FOTO_FILENAME").ToString
             End If
           End Using
         End Using

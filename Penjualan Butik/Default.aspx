@@ -31,11 +31,9 @@
                         <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
                     </li>
                     <li class="nav-item d-none d-sm-inline-block">
-                        <a href="../../index3.html" class="nav-link">Home</a>
+                        <a href="#" class="nav-link">Home</a>
                     </li>
                 </ul>
-
-
             </nav>
 
             <aside class="main-sidebar sidebar-dark-primary elevation-4">
@@ -55,7 +53,7 @@
                             <asp:Image ID="imgUser" runat="server" CssClass="img-circle elevation-2" AlternateText="User Image" />
                         </div>
                         <div class="info">
-                            <asp:LinkButton ID="BTPROFILE" runat="server" CssClass="d-block"></asp:LinkButton>
+                            <asp:LinkButton ID="BTPROFILE" runat="server" CssClass="d-block" PostBackUrl="~/account/User-Profile.aspx"></asp:LinkButton>
                         </div>
                     </div>
 
@@ -145,19 +143,19 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="../charts/flot.html" class="nav-link">
+                                        <a href="kasir/output/kartu-stok-barang.aspx" class="nav-link">
                                             <i class="fas fa-poll-h nav-icon"></i>
                                             <p>Stok Barang</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="../charts/flot.html" class="nav-link">
+                                        <a href="kasir/output/list-penerimaan.aspx" class="nav-link">
                                             <i class="fas fa-file-download nav-icon"></i>
                                             <p>Transaksi Penerimaan</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="../charts/flot.html" class="nav-link">
+                                        <a href="kasir/output/list-penjualan.aspx" class="nav-link">
                                             <i class="fas fa-file-upload nav-icon"></i>
                                             <p>Transaksi Penjualan</p>
                                         </a>
@@ -166,7 +164,7 @@
                             </li>
                             <li class="nav-header">AKUN</li>
                             <li class="nav-item">
-                                <a href="../../Default.aspx" class="nav-link">
+                                <a href="account/User-Profile.aspx" class="nav-link">
                                     <i class="nav-icon fas fa-user-alt"></i>
                                     <p>Pengguna</p>
                                 </a>
