@@ -32,6 +32,9 @@ Partial Class kasir_message_success
       ElseIf Me.Page.Request.QueryString("PreviousPage") = "User-Profile.aspx" Then
         SendNotification("eu52podTnZo:APA91bEGXiYoyrlIZH5Qe67I_RG8e4CoS3cU-AV2XFFofc-RUvHB8n9UUp64tuVYFssXKwJIA737yo5vD7a2vj27mAlu57uVsGGhSyR6hKe4sbtl1ujOwGMO--P2GJ86splYGBR_4DeD", "Penjualan Butik", "Ubah Pengguna : " & Page.Request.QueryString("nama_user"))
         ViewState("PreviousPage") = Request.UrlReferrer
+      ElseIf Me.Page.Request.QueryString("PreviousPage") = "Pengguna.aspx" Then
+        SendNotification("eu52podTnZo:APA91bEGXiYoyrlIZH5Qe67I_RG8e4CoS3cU-AV2XFFofc-RUvHB8n9UUp64tuVYFssXKwJIA737yo5vD7a2vj27mAlu57uVsGGhSyR6hKe4sbtl1ujOwGMO--P2GJ86splYGBR_4DeD", "Penjualan Butik", "Input Pengguna : " & Page.Request.QueryString("nama_user"))
+        ViewState("PreviousPage") = Request.UrlReferrer
       End If
     End If
   End Sub

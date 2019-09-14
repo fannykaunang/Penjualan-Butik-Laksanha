@@ -1,4 +1,4 @@
-<%@ Page Language="VB" AutoEventWireup="false" CodeFile="User-Profile.aspx.vb" Inherits="account_User_Profile" %>
+<%@ Page Language="VB" AutoEventWireup="false" CodeFile="Pengguna.aspx.vb" Inherits="kasir_input_Pengguna" %>
 
 <!DOCTYPE html>
 
@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>User Profile | Penjualan Butik</title>
+    <title>Input Pengguna | Penjualan Butik</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -231,12 +231,12 @@
                     <div class="container-fluid">
                         <div class="row mb-2">
                             <div class="col-sm-6">
-                                <h1>Profile</h1>
+                                <h1>Pengguna</h1>
                             </div>
                             <div class="col-sm-6">
                                 <ol class="breadcrumb float-sm-right">
                                     <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                    <li class="breadcrumb-item active">User Profile</li>
+                                    <li class="breadcrumb-item active">Input Pengguna</li>
                                 </ol>
                             </div>
                         </div>
@@ -305,15 +305,26 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label for="inputName2" class="col-sm-4 control-label">Password</label>
+                                                <label for="TXTPASSWORD" class="col-sm-4 control-label">Password</label>
                                                 <div class="col-sm-12">
                                                     <asp:TextBox ID="TXTPASSWORD" runat="server" CssClass="form-control" TextMode="Password" placeholder="Password"></asp:TextBox>
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label for="inputExperience" class="col-sm-4 control-label">Ulangi Password</label>
+                                                <label for="TXTPASSWORDULANG" class="col-sm-4 control-label">Ulangi Password</label>
                                                 <div class="col-sm-12">
                                                     <asp:TextBox ID="TXTPASSWORDULANG" runat="server" CssClass="form-control" TextMode="Password" placeholder="Ulangi Password"></asp:TextBox>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="TXTLEVEL" class="col-sm-4 control-label">Ulangi Password</label>
+                                                <div class="col-sm-12">
+                                                    <asp:DropDownList ID="TXTLEVEL" CssClass="form-control select2"
+                                                        Style="width: 100%;" runat="server">
+                                                        <asp:ListItem>--Pilih--</asp:ListItem>
+                                                        <asp:ListItem Value="1" Text="Administrator">Administrator</asp:ListItem>
+                                                        <asp:ListItem Value="2" Text="Kasir">Kasir</asp:ListItem>
+                                                    </asp:DropDownList>
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -552,4 +563,3 @@
     </form>
 </body>
 </html>
-

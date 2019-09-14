@@ -1,24 +1,25 @@
-
 Imports System.Globalization
 Imports System.Data
 Imports System.Data.SqlClient
 Imports System.Web.Services
 
-Partial Class account_User_Profile
+Partial Class kasir_input_Pengguna
   Inherits System.Web.UI.Page
 
-  Private Sub account_User_Profile_Load(sender As Object, e As EventArgs) Handles Me.Load
+  Private Sub kasir_input_Pengguna_Load(sender As Object, e As EventArgs) Handles Me.Load
     If Not (Me.Page.IsPostBack) Then
       If Session("KODE_USER") IsNot Nothing Then
         Me.GET_USERS(Session("KODE_USER").ToString)
 
-        If Request.QueryString("UserID") = String.Empty Then
-          Me.GET_DETAIL_USER(Session("KODE_USER"))
-        Else
-          Me.GET_DETAIL_USER(Request.QueryString("UserID"))
-        End If
+        'If Request.QueryString("KODE_USER") = String.Empty Then
+
+        '  Me.GET_BIND_GRID_SPAREPART()
+        '  Me.TXTSEARCH.Attributes.Add("placeholder", "Masukkan Nama Barang disini.")
+        'Else
+        'Me.GET_DETAIL_USER(Session("KODE_USER"))
+        'End If
       Else
-        Response.Redirect("~/account/Login.aspx?next-url=~/account/User-Profile.aspx", True)
+        Response.Redirect("~/account/Login.aspx?next-url=~/input/Pengguna.aspx", True)
       End If
     End If
   End Sub
@@ -128,8 +129,8 @@ Partial Class account_User_Profile
 
   Protected Sub BTSIMPAN_Click(sender As Object, e As EventArgs)
     If FUUPLOAD.HasFile = True Then
-      Dim strQuery As String = "UPDATE [T_USER] SET NAMA_USER = @NAMA_USER, EMAIL = @EMAIL, SANDI = @SANDI, " &
-                    "FOTO_FILENAME = @FOTO_FILENAME, FOTO_FILEPATH = @FOTO_FILEPATH WHERE KODE_USER = @KODE_USER"
+      Dim strQuery As String = "INSERT INTO T_USER " &
+"VALUES(@NAMA_USER, @EMAIL, @SANDI, @FOTO_FILENAME, @FOTO_FILEPATH, @LEVEL_USER, @ACCESS_NUMBER)"
 
       Dim constr As String = ConfigurationManager.ConnectionStrings("DB_Penjualan_Butik_ConnectionString").ToString
       Using con As New SqlConnection(constr)
@@ -141,17 +142,20 @@ Partial Class account_User_Profile
           cmd.Parameters.AddWithValue("@SANDI", Me.TXTPASSWORD.Text)
           cmd.Parameters.AddWithValue("@FOTO_FILENAME", Me.FUUPLOAD.FileName.Replace("-", "_"))
           cmd.Parameters.AddWithValue("@FOTO_FILEPATH", "~/build/imgUpload/")
+          cmd.Parameters.AddWithValue("@LEVEL_USER", Me.TXTLEVEL.SelectedItem.Text)
+          cmd.Parameters.AddWithValue("@ACCESS_NUMBER", Me.TXTLEVEL.SelectedValue)
           Threading.Thread.Sleep(1000)
           cmd.Connection = con
           con.Open()
           cmd.ExecuteNonQuery()
           con.Close()
           Me.FUUPLOAD.SaveAs(Server.MapPath("~/build/imgUpload/" & Me.FUUPLOAD.FileName.Replace("-", "_")))
-          Response.Redirect("~/kasir/message/success.aspx?PreviousPage=User-Profile.aspx&nama_user=" & Me.TXTNAMAPENGGUNA.Text)
+          Response.Redirect("~/kasir/message/success.aspx?PreviousPage=Pengguna.aspx&nama_user=" & Me.TXTNAMAPENGGUNA.Text)
         End Using
       End Using
     Else
-      Dim strQuery As String = "UPDATE [T_USER] SET NAMA_USER = @NAMA_USER, EMAIL = @EMAIL, SANDI = @SANDI WHERE KODE_USER = @KODE_USER"
+      Dim strQuery As String = "INSERT INTO T_USER " &
+"VALUES(@NAMA_USER, @EMAIL, @SANDI, @FOTO_FILENAME, @FOTO_FILEPATH, @LEVEL_USER, @ACCESS_NUMBER)"
 
       Dim constr As String = ConfigurationManager.ConnectionStrings("DB_Penjualan_Butik_ConnectionString").ToString
       Using con As New SqlConnection(constr)
@@ -161,15 +165,19 @@ Partial Class account_User_Profile
           cmd.Parameters.AddWithValue("@NAMA_USER", Me.TXTNAMAPENGGUNA.Text)
           cmd.Parameters.AddWithValue("@EMAIL", Me.TXTEMAIL.Text)
           cmd.Parameters.AddWithValue("@SANDI", Me.TXTPASSWORD.Text)
+          cmd.Parameters.AddWithValue("@FOTO_FILENAME", "No_Image-128.png")
+          cmd.Parameters.AddWithValue("@FOTO_FILEPATH", "~/build/imgUpload/")
+          cmd.Parameters.AddWithValue("@LEVEL_USER", Me.TXTLEVEL.SelectedItem.Text)
+          cmd.Parameters.AddWithValue("@ACCESS_NUMBER", Me.TXTLEVEL.SelectedValue)
           cmd.Connection = con
           Threading.Thread.Sleep(1000)
           con.Open()
           cmd.ExecuteNonQuery()
           con.Close()
-          Response.Redirect("~/kasir/message/success.aspx?PreviousPage=User-Profile.aspx&nama_user=" & Me.TXTNAMAPENGGUNA.Text)
+          Response.Redirect("~/kasir/message/success.aspx?PreviousPage=Pengguna.aspx&nama_user=" & Me.TXTNAMAPENGGUNA.Text)
         End Using
       End Using
     End If
-  End Sub
 
+  End Sub
 End Class
