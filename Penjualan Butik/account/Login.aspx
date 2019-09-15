@@ -6,7 +6,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Penjualan Butik | Log in</title>
+    <title>Laksanha Boutique | Log in</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -78,7 +78,7 @@
                             <span class="fas fa-lock"></span>
                         </div>
                     </div>
-                    <asp:Label ID="LBINFO" runat="server" ForeColor="#d62c2c"></asp:Label>
+                    <asp:Label ID="LBINFO" runat="server" ForeColor="#d62c2c" Font-Size="Small"></asp:Label>
                     <div class="row">
                         <div class="col-7">
                             <div class="icheck-primary">

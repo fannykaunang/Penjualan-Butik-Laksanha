@@ -92,7 +92,7 @@ Partial Class account_Login
       Me.LBINFO.Text = "Sandi masih kosong"
     ElseIf Me.GET_USERS = False Then
       Me.LBINFO.Visible = True
-      Me.LBINFO.Text = "UserID/Email dan kombinasi Sandi Anda salah!! Silahkan coba lagi."
+      Me.LBINFO.Text = "Username/Email atau kombinasi Sandi Anda salah!! Silahkan coba lagi."
     Else
       Me.GET_USERS()
       Try

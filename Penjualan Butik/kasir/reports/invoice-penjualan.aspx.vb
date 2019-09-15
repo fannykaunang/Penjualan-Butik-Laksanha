@@ -35,7 +35,7 @@ Partial Class kasir_reports_invoice_penjualan
             dr.Read()
             If dr.HasRows Then
               Me.BTPROFILE.Text = dr("NAMA_USER").ToString
-              Me.imgUser.ImageUrl = dr("FOTO_FILEPATH").ToString
+              Me.imgUser.ImageUrl = dr("FOTO_FILEPATH").ToString & dr("FOTO_FILENAME").ToString
             End If
           End Using
         End Using

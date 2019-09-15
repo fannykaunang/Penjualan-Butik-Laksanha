@@ -81,6 +81,9 @@
                     <li class="nav-item d-none d-sm-inline-block">
                         <a href="../../Default.aspx" class="nav-link">Home</a>
                     </li>
+                    <li class="nav-item d-none d-sm-inline-block">
+                        <asp:LinkButton ID="BTLIST" runat="server" CssClass="btn btn-primary" PostBackUrl="~/kasir/output/list-pengguna.aspx"><i class="fas fa-list"></i>&nbsp;List Pengguna</asp:LinkButton>
+                    </li>
                 </ul>
             </nav>
 
@@ -108,8 +111,6 @@
                     <!-- Sidebar Menu -->
                     <nav class="mt-2">
                         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                            <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
                             <li class="nav-item">
                                 <a href="../../Default.aspx" class="nav-link">
                                     <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -117,7 +118,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="../widgets.html" class="nav-link">
+                                <a href="#" class="nav-link">
                                     <i class="nav-icon fas fa-book-open"></i>
                                     <p>
                                         Master
@@ -132,21 +133,27 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="../../index2.html" class="nav-link">
+                                        <a href="Kategori_Barang.aspx" class="nav-link">
                                             <i class="fas fa-align-center nav-icon"></i>
                                             <p>Kategori Barang</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="../../index3.html" class="nav-link">
+                                        <a href="Supplier.aspx" class="nav-link">
                                             <i class="fas fa-shuttle-van nav-icon"></i>
                                             <p>Supplier</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="../../index3.html" class="nav-link">
+                                        <a href="Konsumen.aspx" class="nav-link">
                                             <i class="fas fa-chalkboard-teacher nav-icon"></i>
                                             <p>Konsumen</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="Pengguna.aspx" class="nav-link">
+                                            <i class="fas fa-user-plus nav-icon"></i>
+                                            <p>Pengguna</p>
                                         </a>
                                     </li>
                                 </ul>
@@ -161,13 +168,13 @@
                                 </a>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <a href="../charts/chartjs.html" class="nav-link">
+                                        <a href="Penerimaan.aspx" class="nav-link">
                                             <i class="fas fa-cloud-download-alt nav-icon"></i>
                                             <p>Transaksi Penerimaan</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="../charts/flot.html" class="nav-link">
+                                        <a href="Penjualan.aspx" class="nav-link">
                                             <i class="fas fa-cloud-upload-alt nav-icon"></i>
                                             <p>Transaksi Penjualan</p>
                                         </a>
@@ -185,34 +192,40 @@
                                 </a>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <a href="../charts/chartjs.html" class="nav-link">
+                                        <a href="../output/list-barang.aspx" class="nav-link">
                                             <i class="far fa-clipboard nav-icon"></i>
                                             <p>Daftar Barang</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="../charts/flot.html" class="nav-link">
+                                        <a href="../output/kartu-stok-barang.aspx" class="nav-link">
                                             <i class="fas fa-poll-h nav-icon"></i>
                                             <p>Stok Barang</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="../charts/flot.html" class="nav-link">
+                                        <a href="../output/list-penerimaan.aspx" class="nav-link">
                                             <i class="fas fa-file-download nav-icon"></i>
                                             <p>Transaksi Penerimaan</p>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="../charts/flot.html" class="nav-link">
+                                        <a href="../output/list-penjualan.aspx" class="nav-link">
                                             <i class="fas fa-file-upload nav-icon"></i>
                                             <p>Transaksi Penjualan</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="../output/list-pengguna.aspx" class="nav-link">
+                                            <i class="fas fa-address-card nav-icon"></i>
+                                            <p>Daftar Pengguna</p>
                                         </a>
                                     </li>
                                 </ul>
                             </li>
                             <li class="nav-header">AKUN</li>
                             <li class="nav-item">
-                                <a href="../../Default.aspx" class="nav-link">
+                                <a href="../../account/User-Profile.aspx" class="nav-link">
                                     <i class="nav-icon fas fa-user-alt"></i>
                                     <p>Pengguna</p>
                                 </a>
