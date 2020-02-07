@@ -973,6 +973,16 @@
                     return false;
                 });
 
+                function makeid(length) {
+                    var result = '';
+                    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+                    var charactersLength = characters.length;
+                    for (var i = 0; i < length; i++) {
+                        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+                    }
+                    return result;
+                }
+
                 function GET_SUCCESS_SAVE(KDBARANG) {
                     return window.location.href = '../message/success.aspx?PreviousPage=Penerimaan.aspx&nama_barang=' + KDBARANG;
                 }
@@ -1062,6 +1072,8 @@
                         $('html, body').animate({
                             scrollTop: parseInt($("#Panel1").offset().top)
                         }, 2000);
+                        
+                        $("[id*=TXTFAKTUR]").val(makeid(8));
                         return false;
                     }
                     return false;

@@ -438,6 +438,22 @@ Partial Class kasir_input_Penerimaan
     End If
   End Sub
 
+  Private Shared Function GET_RANDOM_CHAR() As String
+    Dim validchars As String = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
+
+    Dim sb As New StringBuilder()
+    Dim rand As New Random()
+    For i As Integer = 1 To 10
+      Dim idx As Integer = rand.Next(0, validchars.Length)
+      Dim randomChar As Char = validchars(idx)
+      sb.Append(randomChar)
+    Next i
+
+    Dim randomString = sb.ToString()
+
+    Return randomString
+  End Function
+
   <WebMethod()>
   Public Shared Function GET_INSERT_DATA(INVOICE_PENERIMAAN As String, ID_BARANG As Integer, KODE_SUPPLIER As Integer, TANGGAL_MASUK As String,
                                                           JUMLAH_MASUK As Integer, STOK As Integer, HARGA_BELI As Double, TOTAL_HARGA As String,

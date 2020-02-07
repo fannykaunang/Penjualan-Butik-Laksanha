@@ -330,7 +330,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label for="TXTLEVEL" class="col-sm-4 control-label">Ulangi Password</label>
+                                                <label for="TXTLEVEL" class="col-sm-4 control-label">Tipe Pengguna</label>
                                                 <div class="col-sm-12">
                                                     <asp:DropDownList ID="TXTLEVEL" CssClass="form-control select2"
                                                         Style="width: 100%;" runat="server">

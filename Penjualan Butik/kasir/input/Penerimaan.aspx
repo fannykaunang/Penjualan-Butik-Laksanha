@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" />
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" />
     <!-- overlayScrollbars -->
@@ -858,7 +858,7 @@
                                 //    $('#modal-img-barang').attr('src', '../../dist/img/No_Image-128.png');
                                 //}
                                 //else {
-                                    $('#modal-img-barang').attr('src', data.d[0].split('-')[11].replace("~", "../..")  + data.d[0].split('-')[10]);
+                                $('#modal-img-barang').attr('src', data.d[0].split('-')[11].replace("~", "../..") + data.d[0].split('-')[10]);
                                 //}
                                 //../../build/imgUpload/american-express.png
                                 $('#modal-nama-barang').text(data.d[0].split('-')[2]);
@@ -989,7 +989,7 @@
                                     }
                                 });
                                 function OnErrorOrFailure(response) {
-                                    alert(response.responseText);
+                                    console.log(response.responseText);
                                     $("[id*=BTSIMPAN]").buttonLoader('stop');
                                 }
                                 return false;
@@ -998,6 +998,16 @@
                     }
                     return false;
                 });
+
+                function makeid(length) {
+                    var result = '';
+                    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+                    var charactersLength = characters.length;
+                    for (var i = 0; i < length; i++) {
+                        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+                    }
+                    return result;
+                }
 
                 function GET_SUCCESS_SAVE(KDBARANG) {
                     return window.location.href = '../message/success.aspx?PreviousPage=Penerimaan.aspx&nama_barang=' + KDBARANG;
@@ -1104,6 +1114,8 @@
                         $('html, body').animate({
                             scrollTop: parseInt($("#Panel1").offset().top)
                         }, 2000);
+
+                        $("[id*=TXTFAKTUR]").val(makeid(8));
                         return false;
                     }
                     return false;
